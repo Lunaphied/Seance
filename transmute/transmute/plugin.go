@@ -21,6 +21,19 @@ type Plugin struct {
 	configuration *configuration
 }
 
+// Initialization during plugin activation.
+func (p *Plugin) OnActivate() error {
+	// For now all we do here is register our base command. In the future we'll open and store a reference to
+	// the database.
+
+	// TODO: Maybe use a function that returns this or a const? The TODO plugin generates this with a function.
+	return p.API.RegisterCommand(&model.Command{
+		Trigger: "transmute",
+		DisplayName: "Transmute",
+		Description: "Invoke a ritual to channel the unseen",
+	})
+}
+
 // ServeHTTP demonstrates a plugin that handles HTTP requests by greeting the world.
 func (p *Plugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Hello, world!\n")
