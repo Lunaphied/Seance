@@ -3,8 +3,8 @@
     "name": "Séance Transmute",
     "description": "A ritual to channel the unseen",
     "homepage_url": "https://github.com/Qyriad/Seance",
-    "min_server_version": "9.6.0",
+    "min_server_version": "9.5.1",
     "server": {
-		"executable": "transmute"
+		"executable": "seance-transmute"
 	}
 }

@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
 	"sync"
 
 	"github.com/mattermost/mattermost/server/public/model"
@@ -25,6 +23,7 @@ type Plugin struct {
 func (p *Plugin) OnActivate() error {
 	// For now all we do here is register our base command. In the future we'll open and store a reference to
 	// the database.
+	p.openDB()
 
 	// TODO: Maybe use a function that returns this or a const? The TODO plugin generates this with a function.
 	return p.API.RegisterCommand(&model.Command{
@@ -32,27 +31,6 @@ func (p *Plugin) OnActivate() error {
 		DisplayName: "Transmute",
 		Description: "Invoke a ritual to channel the unseen",
 	})
-}
-
-// ServeHTTP demonstrates a plugin that handles HTTP requests by greeting the world.
-func (p *Plugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Hello, world!\n")
-
-	user := &model.User{
-		Email:         "meower_proxy@localhost",
-		Username:      "meower_proxy",
-		FirstName:     "Meow",
-		LastName:      "Proxy",
-		Password:      "Pa$$word11",
-		EmailVerified: true,
-	}
-
-	ruser, err := p.API.CreateUser(user)
-	if err != nil {
-		p.API.LogError("CreateUser error: {}", err)
-	}
-
-	fmt.Fprint(w, ruser.Id+"\n")
 }
 
 func (p *Plugin) MessageWillBePosted(c *plugin.Context, post *model.Post) (*model.Post, string) {

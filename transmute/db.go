@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"gorm.io/gorm"
 	"gorm.io/driver/sqlite"
 )
@@ -50,8 +52,12 @@ type Member struct {
 }
 
 // TODO: wrap this in a higher level struct to shield the rest of the logic a bit.
-func openDB() (*gorm.DB, error) {
-	db, err := gorm.Open(sqlite.Open("transmute.db"), &gorm.Config{})
+func (p *Plugin) openDB() (*gorm.DB, error) {
+	plugin_dir, err := p.API.GetBundlePath()
+	if err != nil {
+		return nil, err
+	};
+	db, err := gorm.Open(sqlite.Open(fmt.Sprintf("%s/transmute.db", plugin_dir)), &gorm.Config{})
 
 	// Errors are passed upwards.
 	if err != nil {
