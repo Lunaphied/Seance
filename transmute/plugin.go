@@ -5,6 +5,8 @@ import (
 
 	"github.com/mattermost/mattermost/server/public/model"
 	"github.com/mattermost/mattermost/server/public/plugin"
+
+	"gorm.io/gorm"
 )
 
 // Plugin implements the interface expected by the Mattermost server to communicate between the server and plugin processes.
@@ -17,19 +19,23 @@ type Plugin struct {
 	// configuration is the active plugin configuration. Consult getConfiguration and
 	// setConfiguration for usage.
 	configuration *configuration
+
+	// db stores our knowledge of collectives and their members.
+	db *gorm.DB
 }
 
 // Initialization during plugin activation.
 func (p *Plugin) OnActivate() error {
 	// For now all we do here is register our base command. In the future we'll open and store a reference to
 	// the database.
-	p.openDB()
+	p.db, _ = p.openDB()
 
 	// TODO: Maybe use a function that returns this or a const? The TODO plugin generates this with a function.
 	return p.API.RegisterCommand(&model.Command{
 		Trigger: "transmute",
 		DisplayName: "Transmute",
-		Description: "Invoke a ritual to channel the unseen",
+		AutoComplete: true,
+		AutoCompleteDesc: "Invoke a ritual to channel the unseen",
 	})
 }
 

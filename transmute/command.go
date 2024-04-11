@@ -5,6 +5,8 @@ import (
 	//"regexp"
 	//"strings"
 	//"fmt"
+	"math/rand"
+	"bytes"
 
 	"github.com/mattermost/mattermost/server/public/model"
 	"github.com/mattermost/mattermost/server/public/plugin"
@@ -54,21 +56,25 @@ func (p *Plugin) ExecuteCommand(c *plugin.Context, args *model.CommandArgs) (*mo
 	isUserError, err := handler(restOfArgs, args)
 */
 
+	passwordBytes := make([]byte, 32)
+	rand.Read(passwordBytes)
+	password := string(bytes.Runes(passwordBytes))
+
 	/* Test of user creation again. */
 	user := &model.User{
-		Email:         "meower_proxy@localhost",
-		Username:      "meower_proxy",
+		Email:         "no_meower_proxysss@localhost",
+		//Username:      "meower_proxy",
 		FirstName:     "Meow",
 		Nickname:   "Iris",
 		//LastName:      "Proxy",
-		Password:      "Pa$$word11",
+		Password:      password,
 		//Password: "\x00",
 		EmailVerified: true,
 	}
 
 	_, err := p.API.CreateUser(user)
 	if err != nil {
-		p.API.LogError("CreateUser error: {}", err)
+		//p.API.LogError("CreateUser error: {}", err)
 	}
 
 	//fmt.Fprint(w, ruser.Id+"\n")
