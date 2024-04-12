@@ -38,7 +38,7 @@ func (p *Plugin) OnActivate() error {
 		AutoCompleteDesc: "Invoke a ritual to channel the unseen",
 	})
 }
-
+/*
 func (p *Plugin) MessageWillBePosted(c *plugin.Context, post *model.Post) (*model.Post, string) {
 	// _user, err := &p.API.GetUser("8grsi1tzfibj5c7zjwucng47ur");
 	// if err != nil {
@@ -56,5 +56,4 @@ func (p *Plugin) MessageWillBeUpdated(c *plugin.Context, newPost, oldPost *model
 	}
 	return nil, "meow"
 }
-
-// See https://developers.mattermost.com/extend/plugins/server/reference/
+*/
